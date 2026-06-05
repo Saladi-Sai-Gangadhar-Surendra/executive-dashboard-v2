@@ -21,7 +21,6 @@ export function DashboardProvider({
       project: "All",
       owner: "All",
       workstream: "All",
-      phase: "All",
       status: "All",
       health: "All",
       priority: "All",
