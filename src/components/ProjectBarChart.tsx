@@ -36,13 +36,40 @@ export default function ProjectBarChart() {
     );
   }
 
-  if (
-    filters.workstream !== "All"
-  ) {
+  if (filters.workstream !== "All") {
     tasks = tasks.filter(
       (x: any) =>
         x.Workstream ===
         filters.workstream
+    );
+  }
+
+  if (filters.phase !== "All") {
+    tasks = tasks.filter(
+      (x: any) =>
+        x.Phase === filters.phase
+    );
+  }
+
+  if (filters.status !== "All") {
+    tasks = tasks.filter(
+      (x: any) =>
+        x.Status === filters.status
+    );
+  }
+
+  if (filters.health !== "All") {
+    tasks = tasks.filter(
+      (x: any) =>
+        x.Health === filters.health
+    );
+  }
+
+  if (filters.priority !== "All") {
+    tasks = tasks.filter(
+      (x: any) =>
+        x.Priority ===
+        filters.priority
     );
   }
 
