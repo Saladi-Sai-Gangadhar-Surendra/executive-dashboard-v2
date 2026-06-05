@@ -15,6 +15,9 @@ const COLORS = [
   "#f59e0b",
   "#ef4444",
   "#3b82f6",
+  "#8b5cf6",
+  "#06b6d4",
+  "#84cc16",
 ];
 
 export default function StatusPieChart() {
@@ -42,13 +45,40 @@ export default function StatusPieChart() {
     );
   }
 
-  if (
-    filters.workstream !== "All"
-  ) {
+  if (filters.workstream !== "All") {
     tasks = tasks.filter(
       (x: any) =>
         x.Workstream ===
         filters.workstream
+    );
+  }
+
+  if (filters.phase !== "All") {
+    tasks = tasks.filter(
+      (x: any) =>
+        x.Phase === filters.phase
+    );
+  }
+
+  if (filters.status !== "All") {
+    tasks = tasks.filter(
+      (x: any) =>
+        x.Status === filters.status
+    );
+  }
+
+  if (filters.health !== "All") {
+    tasks = tasks.filter(
+      (x: any) =>
+        x.Health === filters.health
+    );
+  }
+
+  if (filters.priority !== "All") {
+    tasks = tasks.filter(
+      (x: any) =>
+        x.Priority ===
+        filters.priority
     );
   }
 
