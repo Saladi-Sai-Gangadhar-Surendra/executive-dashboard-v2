@@ -20,7 +20,7 @@ export default function Filters() {
   const projectMeta =
     excelData.PROJECT_METADATA || [];
 
-  const projects: string[] = [
+  const projects = [
     ...new Set(
       tasks
         .map((r: any) => r.Project)
@@ -28,7 +28,7 @@ export default function Filters() {
     ),
   ];
 
-  const owners: string[] = [
+  const owners = [
     ...new Set(
       tasks
         .map((r: any) => r.Owner)
@@ -36,7 +36,7 @@ export default function Filters() {
     ),
   ];
 
-  const workstreams: string[] = [
+  const workstreams = [
     ...new Set(
       tasks
         .map((r: any) => r.Workstream)
@@ -44,7 +44,7 @@ export default function Filters() {
     ),
   ];
 
-  const healths: string[] = [
+  const healths = [
     ...new Set(
       projectMeta
         .map((r: any) => r.Health)
@@ -52,7 +52,7 @@ export default function Filters() {
     ),
   ];
 
-  const priorities: string[] = [
+  const priorities = [
     ...new Set(
       projectMeta
         .map((r: any) => r.Priority)
@@ -60,7 +60,7 @@ export default function Filters() {
     ),
   ];
 
-  const statuses: string[] = [
+  const statuses = [
     ...new Set(
       actions
         .map((r: any) => r.Status)
@@ -86,7 +86,7 @@ export default function Filters() {
           All Projects
         </option>
 
-        {projects.map((project, index) => (
+        {projects.map((project: any, index) => (
           <option
             key={index}
             value={project}
@@ -111,7 +111,7 @@ export default function Filters() {
           All Owners
         </option>
 
-        {owners.map((owner, index) => (
+        {owners.map((owner: any, index) => (
           <option
             key={index}
             value={owner}
@@ -137,7 +137,7 @@ export default function Filters() {
         </option>
 
         {workstreams.map(
-          (workstream, index) => (
+          (workstream: any, index) => (
             <option
               key={index}
               value={workstream}
@@ -163,7 +163,7 @@ export default function Filters() {
           All Status
         </option>
 
-        {statuses.map((status, index) => (
+        {statuses.map((status: any, index) => (
           <option
             key={index}
             value={status}
@@ -188,7 +188,7 @@ export default function Filters() {
           All Health
         </option>
 
-        {healths.map((health, index) => (
+        {healths.map((health: any, index) => (
           <option
             key={index}
             value={health}
@@ -214,7 +214,7 @@ export default function Filters() {
         </option>
 
         {priorities.map(
-          (priority, index) => (
+          (priority: any, index) => (
             <option
               key={index}
               value={priority}
