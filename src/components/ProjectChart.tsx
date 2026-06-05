@@ -1,25 +1,101 @@
+"use client";
+
+import { useDashboard } from "@/src/context/DashboardContext";
+
 export default function ProjectChart() {
+  const {
+    excelData,
+    filters,
+  } = useDashboard();
+
+  if (!excelData) return null;
+
+  let tasks =
+    excelData.MASTER_TASKS_COMPLETE || [];
+
+  if (filters.project !== "All") {
+    tasks = tasks.filter(
+      (x: any) =>
+        x.Project === filters.project
+    );
+  }
+
+  if (filters.owner !== "All") {
+    tasks = tasks.filter(
+      (x: any) =>
+        x.Owner === filters.owner
+    );
+  }
+
+  if (filters.workstream !== "All") {
+    tasks = tasks.filter(
+      (x: any) =>
+        x.Workstream ===
+        filters.workstream
+    );
+  }
+
+  if (filters.phase !== "All") {
+    tasks = tasks.filter(
+      (x: any) =>
+        x.Phase === filters.phase
+    );
+  }
+
+  const projectCounts: Record<
+    string,
+    number
+  > = {};
+
+  tasks.forEach((task: any) => {
+    const project =
+      task.Project || "Unknown";
+
+    projectCounts[project] =
+      (projectCounts[project] || 0) + 1;
+  });
+
+  const data = Object.entries(
+    projectCounts
+  ).sort(
+    (a: any, b: any) => b[1] - a[1]
+  );
+
+  const max =
+    Math.max(
+      ...data.map((x: any) => x[1]),
+      1
+    );
+
   return (
-    <div className="bg-white rounded-xl shadow p-6 h-80">
-      <h2 className="font-bold text-lg mb-4">
+    <div className="bg-white rounded-xl shadow p-6 h-auto">
+      <h2 className="font-bold text-lg mb-6">
         Project Distribution
       </h2>
 
-      <div className="space-y-4">
-        <div>
-          NeuroBiplane
-          <div className="h-4 bg-blue-500 rounded mt-1 w-10/12"></div>
-        </div>
+      <div className="space-y-5">
+        {data.map(
+          ([project, count]: any) => (
+            <div key={project}>
+              <div className="flex justify-between text-sm mb-1">
+                <span>{project}</span>
+                <span>{count}</span>
+              </div>
 
-        <div>
-          Flex Floor
-          <div className="h-4 bg-green-500 rounded mt-1 w-8/12"></div>
-        </div>
-
-        <div>
-          CardiacBiplane
-          <div className="h-4 bg-purple-500 rounded mt-1 w-6/12"></div>
-        </div>
+              <div className="w-full bg-slate-200 rounded h-4">
+                <div
+                  className="bg-blue-600 h-4 rounded"
+                  style={{
+                    width: `${
+                      (count / max) *
+                      100
+                    }%`,
+                  }}
+                />
+              </div>
+            </div>
+          )
+        )}
       </div>
     </div>
   );
