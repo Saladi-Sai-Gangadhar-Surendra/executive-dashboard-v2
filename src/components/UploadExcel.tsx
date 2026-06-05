@@ -71,4 +71,4 @@ export default function UploadExcel() {
       />
     </div>
   );
-}              give full code not replaces 
+}
