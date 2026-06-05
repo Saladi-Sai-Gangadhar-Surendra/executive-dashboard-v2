@@ -13,6 +13,14 @@ export default function KpiCards() {
   let tasks =
     excelData.MASTER_TASKS_COMPLETE || [];
 
+  let actions =
+    excelData.MASTER_ACTIONS_COMPLETE || [];
+
+  const projectMeta =
+    excelData.PROJECT_METADATA || [];
+
+  /* ---------------- TASK FILTERS ---------------- */
+
   if (filters.project !== "All") {
     tasks = tasks.filter(
       (x: any) =>
@@ -35,24 +43,21 @@ export default function KpiCards() {
     );
   }
 
-  const actions =
-    excelData.MASTER_ACTIONS_COMPLETE || [];
+  if (filters.phase !== "All") {
+    tasks = tasks.filter(
+      (x: any) =>
+        x.Phase === filters.phase
+    );
+  }
 
-  const materials =
-    excelData.MASTER_MATERIALS_COMPLETE || [];
+  /* ---------------- ACTION FILTERS ---------------- */
 
-  const projectCount =
-    new Set(
-      tasks.map(
-        (x: any) => x.Project
-      )
-    ).size;
-
-  const filteredActions =
-    actions.filter((action: any) => {
+  let filteredActions = actions.filter(
+    (action: any) => {
       if (
         filters.project !== "All" &&
-        action.Project !== filters.project
+        action.Project !==
+          filters.project
       )
         return false;
 
@@ -69,8 +74,77 @@ export default function KpiCards() {
       )
         return false;
 
+      if (
+        filters.status !== "All" &&
+        action.Status !==
+          filters.status
+      )
+        return false;
+
       return true;
-    });
+    }
+  );
+
+  /* ---------------- PROJECT META FILTERS ---------------- */
+
+  let filteredProjects =
+    projectMeta;
+
+  if (filters.health !== "All") {
+    filteredProjects =
+      filteredProjects.filter(
+        (p: any) =>
+          p.Health ===
+          filters.health
+      );
+  }
+
+  if (filters.priority !== "All") {
+    filteredProjects =
+      filteredProjects.filter(
+        (p: any) =>
+          p.Priority ===
+          filters.priority
+      );
+  }
+
+  /* ---------------- KPIs ---------------- */
+
+  const projectCount =
+    new Set(
+      tasks.map(
+        (x: any) => x.Project
+      )
+    ).size;
+
+  const materials =
+    excelData.MASTER_MATERIALS_COMPLETE ||
+    [];
+
+  const greenProjects =
+    projectMeta.filter(
+      (x: any) =>
+        x.Health === "Green"
+    ).length;
+
+  const amberProjects =
+    projectMeta.filter(
+      (x: any) =>
+        x.Health === "Amber"
+    ).length;
+
+  const redProjects =
+    projectMeta.filter(
+      (x: any) =>
+        x.Health === "Red"
+    ).length;
+
+  const criticalProjects =
+    projectMeta.filter(
+      (x: any) =>
+        x.Priority ===
+        "Critical"
+    ).length;
 
   const completion =
     tasks.length > 0
@@ -103,10 +177,26 @@ export default function KpiCards() {
       title: "Completion",
       value: `${completion}%`,
     },
+    {
+      title: "Green Projects",
+      value: greenProjects,
+    },
+    {
+      title: "Amber Projects",
+      value: amberProjects,
+    },
+    {
+      title: "Red Projects",
+      value: redProjects,
+    },
+    {
+      title: "Critical Projects",
+      value: criticalProjects,
+    },
   ];
 
   return (
-    <div className="grid grid-cols-5 gap-5 mb-8">
+    <div className="grid grid-cols-3 lg:grid-cols-5 gap-5 mb-8">
       {cards.map((card) => (
         <div
           key={card.title}
