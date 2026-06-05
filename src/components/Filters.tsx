@@ -20,53 +20,64 @@ export default function Filters() {
   const projectMeta =
     excelData.PROJECT_METADATA || [];
 
-  const projects = [
+  const phaseMaster =
+    excelData.PHASE_MASTER || [];
+
+  const projects: string[] = [
     ...new Set(
       tasks
         .map((r: any) => r.Project)
         .filter(Boolean)
     ),
-  ];
+  ] as string[];
 
-  const owners = [
+  const owners: string[] = [
     ...new Set(
       tasks
         .map((r: any) => r.Owner)
         .filter(Boolean)
     ),
-  ];
+  ] as string[];
 
-  const workstreams = [
+  const workstreams: string[] = [
     ...new Set(
       tasks
         .map((r: any) => r.Workstream)
         .filter(Boolean)
     ),
-  ];
+  ] as string[];
 
-  const healths = [
+  const phases: string[] = [
+    ...new Set(
+      phaseMaster
+        .map((r: any) => r.Phase)
+        .filter(Boolean)
+    ),
+  ] as string[];
+
+  const healths: string[] = [
     ...new Set(
       projectMeta
         .map((r: any) => r.Health)
         .filter(Boolean)
     ),
-  ];
+  ] as string[];
 
-  const priorities = [
+  const priorities: string[] = [
     ...new Set(
       projectMeta
         .map((r: any) => r.Priority)
         .filter(Boolean)
     ),
-  ];
+  ] as string[];
 
-  const statuses = [
+  const statuses: string[] = [
     ...new Set(
       actions
         .map((r: any) => r.Status)
         .filter(Boolean)
     ),
-  ];
+  ] as string[];
 
   return (
     <div className="space-y-4">
@@ -86,7 +97,7 @@ export default function Filters() {
           All Projects
         </option>
 
-        {projects.map((project: any, index) => (
+        {projects.map((project: string, index: number) => (
           <option
             key={index}
             value={project}
@@ -111,7 +122,7 @@ export default function Filters() {
           All Owners
         </option>
 
-        {owners.map((owner: any, index) => (
+        {owners.map((owner: string, index: number) => (
           <option
             key={index}
             value={owner}
@@ -136,16 +147,39 @@ export default function Filters() {
           All Workstreams
         </option>
 
-        {workstreams.map(
-          (workstream: any, index) => (
-            <option
-              key={index}
-              value={workstream}
-            >
-              {workstream}
-            </option>
-          )
-        )}
+        {workstreams.map((workstream: string, index: number) => (
+          <option
+            key={index}
+            value={workstream}
+          >
+            {workstream}
+          </option>
+        ))}
+      </select>
+
+      {/* PHASE */}
+      <select
+        value={filters.phase}
+        onChange={(e) =>
+          setFilters({
+            ...filters,
+            phase: e.target.value,
+          })
+        }
+        className="w-full p-3 rounded bg-slate-900 border border-slate-700 text-white"
+      >
+        <option value="All">
+          All Phases
+        </option>
+
+        {phases.map((phase: string, index: number) => (
+          <option
+            key={index}
+            value={phase}
+          >
+            {phase}
+          </option>
+        ))}
       </select>
 
       {/* STATUS */}
@@ -163,7 +197,7 @@ export default function Filters() {
           All Status
         </option>
 
-        {statuses.map((status: any, index) => (
+        {statuses.map((status: string, index: number) => (
           <option
             key={index}
             value={status}
@@ -188,7 +222,7 @@ export default function Filters() {
           All Health
         </option>
 
-        {healths.map((health: any, index) => (
+        {healths.map((health: string, index: number) => (
           <option
             key={index}
             value={health}
@@ -213,16 +247,14 @@ export default function Filters() {
           All Priorities
         </option>
 
-        {priorities.map(
-          (priority: any, index) => (
-            <option
-              key={index}
-              value={priority}
-            >
-              {priority}
-            </option>
-          )
-        )}
+        {priorities.map((priority: string, index: number) => (
+          <option
+            key={index}
+            value={priority}
+          >
+            {priority}
+          </option>
+        ))}
       </select>
 
     </div>
