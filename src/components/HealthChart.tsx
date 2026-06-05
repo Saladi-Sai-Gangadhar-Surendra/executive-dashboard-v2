@@ -19,62 +19,18 @@ export default function HealthChart() {
 
   if (!excelData) return null;
 
-  let tasks =
-    excelData.MASTER_TASKS_COMPLETE || [];
-
-  if (filters.project !== "All") {
-    tasks = tasks.filter(
-      (x: any) =>
-        x.Project === filters.project
-    );
-  }
-
-  if (filters.owner !== "All") {
-    tasks = tasks.filter(
-      (x: any) =>
-        x.Owner === filters.owner
-    );
-  }
-
-  if (filters.workstream !== "All") {
-    tasks = tasks.filter(
-      (x: any) =>
-        x.Workstream ===
-        filters.workstream
-    );
-  }
-
-  if (filters.phase !== "All") {
-    tasks = tasks.filter(
-      (x: any) =>
-        x.Phase === filters.phase
-    );
-  }
-
-  if (filters.status !== "All") {
-    tasks = tasks.filter(
-      (x: any) =>
-        x.Status === filters.status
-    );
-  }
+  let projects =
+    excelData.PROJECT_METADATA || [];
 
   if (filters.health !== "All") {
-    tasks = tasks.filter(
+    projects = projects.filter(
       (x: any) =>
         x.Health === filters.health
     );
   }
 
-  if (filters.priority !== "All") {
-    tasks = tasks.filter(
-      (x: any) =>
-        x.Priority ===
-        filters.priority
-    );
-  }
-
   const grouped = Object.entries(
-    tasks.reduce(
+    projects.reduce(
       (acc: any, row: any) => {
         const health =
           row.Health || "Unknown";
