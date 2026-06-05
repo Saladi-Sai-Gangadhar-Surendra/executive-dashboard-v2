@@ -44,41 +44,11 @@ export default function ProjectBarChart() {
     );
   }
 
-  if (filters.phase !== "All") {
-    tasks = tasks.filter(
-      (x: any) =>
-        x.Phase === filters.phase
-    );
-  }
-
-  if (filters.status !== "All") {
-    tasks = tasks.filter(
-      (x: any) =>
-        x.Status === filters.status
-    );
-  }
-
-  if (filters.health !== "All") {
-    tasks = tasks.filter(
-      (x: any) =>
-        x.Health === filters.health
-    );
-  }
-
-  if (filters.priority !== "All") {
-    tasks = tasks.filter(
-      (x: any) =>
-        x.Priority ===
-        filters.priority
-    );
-  }
-
   const grouped = Object.entries(
     tasks.reduce(
       (acc: any, row: any) => {
         const p =
-          row.Project ||
-          "Unknown";
+          row.Project || "Unknown";
 
         acc[p] =
           (acc[p] || 0) + 1;
@@ -87,9 +57,9 @@ export default function ProjectBarChart() {
       },
       {}
     )
-  ).map(([project, tasks]) => ({
+  ).map(([project, count]) => ({
     project,
-    tasks,
+    count,
   }));
 
   return (
@@ -107,7 +77,7 @@ export default function ProjectBarChart() {
             <XAxis dataKey="project" />
             <YAxis />
             <Tooltip />
-            <Bar dataKey="tasks" />
+            <Bar dataKey="count" />
           </BarChart>
         </ResponsiveContainer>
       </div>
