@@ -35,35 +35,6 @@ export default function FilteredProjectsTable() {
     );
   }
 
-  if (filters.phase !== "All") {
-    tasks = tasks.filter(
-      (x: any) =>
-        x.Phase === filters.phase
-    );
-  }
-
-  if (filters.status !== "All") {
-    tasks = tasks.filter(
-      (x: any) =>
-        x.Status === filters.status
-    );
-  }
-
-  if (filters.health !== "All") {
-    tasks = tasks.filter(
-      (x: any) =>
-        x.Health === filters.health
-    );
-  }
-
-  if (filters.priority !== "All") {
-    tasks = tasks.filter(
-      (x: any) =>
-        x.Priority ===
-        filters.priority
-    );
-  }
-
   return (
     <div className="bg-white rounded-xl shadow p-6 mt-6">
       <h2 className="text-xl font-bold mb-4">
@@ -88,18 +59,6 @@ export default function FilteredProjectsTable() {
 
               <th className="text-left p-2">
                 Phase
-              </th>
-
-              <th className="text-left p-2">
-                Health
-              </th>
-
-              <th className="text-left p-2">
-                Priority
-              </th>
-
-              <th className="text-left p-2">
-                Status
               </th>
 
               <th className="text-left p-2">
@@ -132,18 +91,6 @@ export default function FilteredProjectsTable() {
 
                   <td className="p-2">
                     {row.Phase}
-                  </td>
-
-                  <td className="p-2">
-                    {row.Health}
-                  </td>
-
-                  <td className="p-2">
-                    {row.Priority}
-                  </td>
-
-                  <td className="p-2">
-                    {row.Status}
                   </td>
 
                   <td className="p-2">
