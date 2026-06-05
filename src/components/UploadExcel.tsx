@@ -33,25 +33,18 @@ export default function UploadExcel() {
         );
       });
 
-      setExcelData(sheets);
-
-      console.log(
-        "TASKS COMPLETE FIRST ROW",
-        sheets.MASTER_TASKS_COMPLETE?.[0]
-      );
-
-      console.log(
-        "ACTIONS FIRST ROW",
-        sheets.MASTER_ACTIONS_COMPLETE?.[0]
-      );
-
-      console.log(
-        "MATERIALS FIRST ROW",
-        sheets.MASTER_MATERIALS_COMPLETE?.[0]
-      );
-
+      console.log("================================");
       console.log("AVAILABLE SHEETS");
-      console.log(Object.keys(sheets));
+      console.log(workbook.SheetNames);
+      console.log("================================");
+
+      workbook.SheetNames.forEach((name) => {
+        console.log(
+          `${name} -> ${sheets[name]?.length || 0} rows`
+        );
+      });
+
+      setExcelData(sheets);
     };
 
     reader.readAsBinaryString(file);
