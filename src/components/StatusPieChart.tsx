@@ -53,6 +53,35 @@ export default function StatusPieChart() {
     );
   }
 
+  if (filters.phase !== "All") {
+    tasks = tasks.filter(
+      (x: any) =>
+        x.Phase === filters.phase
+    );
+  }
+
+  if (filters.status !== "All") {
+    tasks = tasks.filter(
+      (x: any) =>
+        x.Status === filters.status
+    );
+  }
+
+  if (filters.health !== "All") {
+    tasks = tasks.filter(
+      (x: any) =>
+        x.Health === filters.health
+    );
+  }
+
+  if (filters.priority !== "All") {
+    tasks = tasks.filter(
+      (x: any) =>
+        x.Priority ===
+        filters.priority
+    );
+  }
+
   const grouped = Object.entries(
     tasks.reduce(
       (acc: any, row: any) => {
