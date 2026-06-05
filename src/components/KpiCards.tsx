@@ -19,7 +19,7 @@ export default function KpiCards() {
   const projectMeta =
     excelData.PROJECT_METADATA || [];
 
-  /* ---------------- TASK FILTERS ---------------- */
+  /* TASK FILTERS */
 
   if (filters.project !== "All") {
     tasks = tasks.filter(
@@ -43,21 +43,13 @@ export default function KpiCards() {
     );
   }
 
-  if (filters.phase !== "All") {
-    tasks = tasks.filter(
-      (x: any) =>
-        x.Phase === filters.phase
-    );
-  }
-
-  /* ---------------- ACTION FILTERS ---------------- */
+  /* ACTION FILTERS */
 
   let filteredActions = actions.filter(
     (action: any) => {
       if (
         filters.project !== "All" &&
-        action.Project !==
-          filters.project
+        action.Project !== filters.project
       )
         return false;
 
@@ -76,8 +68,7 @@ export default function KpiCards() {
 
       if (
         filters.status !== "All" &&
-        action.Status !==
-          filters.status
+        action.Status !== filters.status
       )
         return false;
 
@@ -85,30 +76,9 @@ export default function KpiCards() {
     }
   );
 
-  /* ---------------- PROJECT META FILTERS ---------------- */
-
-  let filteredProjects =
-    projectMeta;
-
-  if (filters.health !== "All") {
-    filteredProjects =
-      filteredProjects.filter(
-        (p: any) =>
-          p.Health ===
-          filters.health
-      );
-  }
-
-  if (filters.priority !== "All") {
-    filteredProjects =
-      filteredProjects.filter(
-        (p: any) =>
-          p.Priority ===
-          filters.priority
-      );
-  }
-
-  /* ---------------- KPIs ---------------- */
+  const materials =
+    excelData.MASTER_MATERIALS_COMPLETE ||
+    [];
 
   const projectCount =
     new Set(
@@ -116,10 +86,6 @@ export default function KpiCards() {
         (x: any) => x.Project
       )
     ).size;
-
-  const materials =
-    excelData.MASTER_MATERIALS_COMPLETE ||
-    [];
 
   const greenProjects =
     projectMeta.filter(
@@ -142,8 +108,7 @@ export default function KpiCards() {
   const criticalProjects =
     projectMeta.filter(
       (x: any) =>
-        x.Priority ===
-        "Critical"
+        x.Priority === "Critical"
     ).length;
 
   const completion =
