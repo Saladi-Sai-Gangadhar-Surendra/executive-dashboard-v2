@@ -197,18 +197,20 @@ if (
         );
 
       const ownersFound = [
-        ...new Set(
-          found
-            .map((f: any) =>
-              String(f.Owner).trim()
-            )
-            .filter(
-              (o: string) =>
-                o &&
-                o !== "Unassigned"
-            )
-        ),
-      ];
+  ...new Set(
+    found
+      .flatMap((f: any) =>
+        String(f.Owner)
+          .split("/")
+          .map((o) => o.trim())
+      )
+      .filter(
+        (o: string) =>
+          o &&
+          o !== "Unassigned"
+      )
+  ),
+];
 
       answer =
         `People working on ${project}:\n\n` +
