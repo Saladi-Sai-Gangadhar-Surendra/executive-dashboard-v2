@@ -334,27 +334,55 @@ if (
         );
 
       if (project) {
-        if (
-          q.includes("health")
-        ) {
-          answer =
-            `${project.Project} Health: ${project.Health}`;
-        } else if (
-          q.includes("priority")
-        ) {
-          answer =
-            `${project.Project} Priority: ${project.Priority}`;
-        } else if (
-          q.includes("manager")
-        ) {
-          answer =
-            `${project.Project} Manager: ${project.Project_Manager}`;
-        } else {
-          answer =
-            `${project.Project}: ${project.Summary}`;
-        }
-      }
-    }
+  if (
+    q.includes("start date") ||
+    q.includes("start")
+  ) {
+    answer =
+      `${project.Project} Start Date: ${project.Start_Date}`;
+  }
+
+  else if (
+    q.includes("end date") ||
+    q.includes("end")
+  ) {
+    answer =
+      `${project.Project} End Date: ${project.End_Date}`;
+  }
+
+  else if (
+    q.includes("timeline")
+  ) {
+    answer =
+      `${project.Project} Timeline:\n\nStart Date: ${project.Start_Date}\nEnd Date: ${project.End_Date}`;
+  }
+
+  else if (
+    q.includes("manager")
+  ) {
+    answer =
+      `${project.Project} Manager: ${project.Project_Manager}`;
+  }
+
+  else if (
+    q.includes("health")
+  ) {
+    answer =
+      `${project.Project} Health: ${project.Health}`;
+  }
+
+  else if (
+    q.includes("priority")
+  ) {
+    answer =
+      `${project.Project} Priority: ${project.Priority}`;
+  }
+
+  else {
+    answer =
+      `${project.Project}: ${project.Summary}`;
+  }
+}
 
     setMessages([
       ...messages,
