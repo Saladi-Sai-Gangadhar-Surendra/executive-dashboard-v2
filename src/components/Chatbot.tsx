@@ -383,6 +383,7 @@ if (
       `${project.Project}: ${project.Summary}`;
   }
 }
+    }
 
     setMessages([
       ...messages,
