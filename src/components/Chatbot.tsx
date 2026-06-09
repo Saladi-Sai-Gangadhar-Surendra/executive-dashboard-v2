@@ -164,61 +164,60 @@ export default function Chatbot() {
 
     /* WHO WORKS ON PROJECT */
 
+if (
+  answer ===
+  "Sorry, I could not find an answer."
+) {
+  const projects = [
+    "neurobiplane",
+    "flexfloor",
+    "cardiacbiplane",
+  ];
+
+  for (const project of projects) {
     if (
-      answer ===
-      "Sorry, I could not find an answer."
+      q.includes(project) &&
+      (
+        q.includes("owner") ||
+        q.includes("owners") ||
+        q.includes("owns") ||
+        q.includes("responsible") ||
+        q.includes("working") ||
+        q.includes("who works") ||
+        q.includes("who is working") ||
+        q.includes("who owns")
+      )
     ) {
-      const projects = [
-        "neurobiplane",
-        "flexfloor",
-        "cardiacbiplane",
+      const found =
+        tasks.filter(
+          (t: any) =>
+            String(t.Project)
+              .toLowerCase()
+              .includes(project)
+        );
+
+      const ownersFound = [
+        ...new Set(
+          found
+            .map((f: any) =>
+              String(f.Owner).trim()
+            )
+            .filter(
+              (o: string) =>
+                o &&
+                o !== "Unassigned"
+            )
+        ),
       ];
 
-      for (const project of projects) {
-        if (
-          q.includes(project) &&
-          (
-            q.includes("owner") ||
-            q.includes("owners") ||
-            q.includes("responsible") ||
-            q.includes("working") ||
-            q.includes("who works") ||
-            q.includes("who is working")
-          )
-        ) {
-          const found =
-            tasks.filter(
-              (t: any) =>
-                String(
-                  t.Project
-                )
-                  .toLowerCase()
-                  .includes(project)
-            );
+      answer =
+        `People working on ${project}:\n\n` +
+        ownersFound.join(", ");
 
-          const ownersFound =
-            [
-              ...new Set(
-                found.map(
-                  (f: any) =>
-                    f.Owner
-                )
-              ),
-            ]
-              .filter(Boolean)
-              .filter(
-                (x: any) =>
-                  x !== "Unassigned"
-              );
-
-          answer =
-            `People working on ${project}:\n\n` +
-            ownersFound.join(", ");
-
-          break;
-        }
-      }
+      break;
     }
+  }
+}
 
     /* OPEN ACTIONS */
 
