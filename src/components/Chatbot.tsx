@@ -213,8 +213,8 @@ if (
 ];
 
       answer =
-        `People working on ${project}:\n\n` +
-        ownersFound.join(", ");
+  `Owners involved in ${project}:\n\n• ` +
+  ownersFound.join("\n• ");
 
       break;
     }
