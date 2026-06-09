@@ -2,6 +2,7 @@
 
 import Sidebar from "@/src/components/Sidebar";
 import KpiCards from "@/src/components/KpiCards";
+import Chatbot from "@/src/components/Chatbot";
 
 import StatusPieChart from "@/src/components/StatusPieChart";
 import ProjectBarChart from "@/src/components/ProjectBarChart";
@@ -53,6 +54,7 @@ export default function Home() {
 
         <FilteredProjectsTable />
       </div>
+      <Chatbot />
     </main>
   );
 }
