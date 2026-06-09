@@ -43,23 +43,16 @@ export default function Chatbot() {
     const actions =
       excelData?.MASTER_ACTIONS_COMPLETE || [];
 
-    /* ==========================
-       TOTAL PROJECTS
-    ========================== */
+    /* TOTAL PROJECTS */
 
     if (
       q.includes("how many projects") ||
       q.includes("total projects")
     ) {
-      const count =
-        metadata.length || 0;
-
-      answer = `Total Projects: ${count}`;
+      answer = `Total Projects: ${metadata.length}`;
     }
 
-    /* ==========================
-       TOTAL TASKS
-    ========================== */
+    /* TOTAL TASKS */
 
     else if (
       q.includes("how many tasks") ||
@@ -68,9 +61,7 @@ export default function Chatbot() {
       answer = `Total Tasks: ${tasks.length}`;
     }
 
-    /* ==========================
-       TOTAL ACTIONS
-    ========================== */
+    /* TOTAL ACTIONS */
 
     else if (
       q.includes("how many actions") ||
@@ -79,31 +70,23 @@ export default function Chatbot() {
       answer = `Total Actions: ${actions.length}`;
     }
 
-    /* ==========================
-       COMPLETION %
-    ========================== */
+    /* COMPLETION */
 
     else if (
-      q.includes("completion") ||
-      q.includes("completion percentage")
+      q.includes("completion")
     ) {
-      const completion =
-        facts.find(
-          (f: any) =>
-            String(
-              f.Metric
-            ).toLowerCase() ===
-            "completion percentage"
-        );
+      const completion = facts.find(
+        (f: any) =>
+          String(f.Metric).toLowerCase() ===
+          "completion percentage"
+      );
 
       answer = completion
         ? `Dashboard Completion: ${completion.Value}`
         : "Completion data not available";
     }
 
-    /* ==========================
-       LIST OWNERS
-    ========================== */
+    /* LIST OWNERS */
 
     else if (
       q.includes("list owners") ||
@@ -122,9 +105,7 @@ export default function Chatbot() {
         ownerNames.join(", ");
     }
 
-    /* ==========================
-       LIST PHASES
-    ========================== */
+    /* LIST PHASES */
 
     else if (
       q.includes("list phases") ||
@@ -143,17 +124,11 @@ export default function Chatbot() {
         phaseNames.join(", ");
     }
 
-    /* ==========================
-       LIST WORKSTREAMS
-    ========================== */
+    /* LIST WORKSTREAMS */
 
     else if (
-      q.includes(
-        "list workstreams"
-      ) ||
-      q.includes(
-        "all workstreams"
-      )
+      q.includes("list workstreams") ||
+      q.includes("all workstreams")
     ) {
       const streams = [
         ...new Set(
@@ -169,9 +144,7 @@ export default function Chatbot() {
         streams.join(", ");
     }
 
-    /* ==========================
-       OWNER LOOKUP
-    ========================== */
+    /* OWNER LOOKUP */
 
     else {
       const ownerMatch =
@@ -189,49 +162,7 @@ export default function Chatbot() {
       }
     }
 
-    /* ==========================
-       PROJECT LOOKUP
-    ========================== */
-
-    if (
-      answer ===
-      "Sorry, I could not find an answer."
-    ) {
-      const project =
-        knowledge.find((p: any) =>
-          q.includes(
-            String(
-              p.Project
-            ).toLowerCase()
-          )
-        );
-
-      if (project) {
-        if (
-          q.includes("health")
-        ) {
-          answer = `${project.Project} Health: ${project.Health}`;
-        } else if (
-          q.includes(
-            "priority"
-          )
-        ) {
-          answer = `${project.Project} Priority: ${project.Priority}`;
-        } else if (
-          q.includes(
-            "manager"
-          )
-        ) {
-          answer = `${project.Project} Manager: ${project.Project_Manager}`;
-        } else {
-          answer = `${project.Project}: ${project.Summary}`;
-        }
-      }
-    }
-
-    /* ==========================
-       WHO WORKS ON PROJECT
-    ========================== */
+    /* WHO WORKS ON PROJECT */
 
     if (
       answer ===
@@ -246,13 +177,14 @@ export default function Chatbot() {
       for (const project of projects) {
         if (
           q.includes(project) &&
-          (q.includes("owner") ||
-            q.includes(
-              "working"
-            ) ||
-            q.includes(
-              "responsible"
-            ))
+          (
+            q.includes("owner") ||
+            q.includes("owners") ||
+            q.includes("responsible") ||
+            q.includes("working") ||
+            q.includes("who works") ||
+            q.includes("who is working")
+          )
         ) {
           const found =
             tasks.filter(
@@ -261,9 +193,7 @@ export default function Chatbot() {
                   t.Project
                 )
                   .toLowerCase()
-                  .includes(
-                    project
-                  )
+                  .includes(project)
             );
 
           const ownersFound =
@@ -276,22 +206,21 @@ export default function Chatbot() {
               ),
             ]
               .filter(Boolean)
-              .slice(0, 15);
+              .filter(
+                (x: any) =>
+                  x !== "Unassigned"
+              );
 
           answer =
-            `People working on ${project}:\n` +
-            ownersFound.join(
-              ", "
-            );
+            `People working on ${project}:\n\n` +
+            ownersFound.join(", ");
 
           break;
         }
       }
     }
 
-    /* ==========================
-       OPEN ACTIONS
-    ========================== */
+    /* OPEN ACTIONS */
 
     if (
       answer ===
@@ -313,15 +242,13 @@ export default function Chatbot() {
               .slice(0, 10)
               .map(
                 (a: any) =>
-                  `${a.Description}`
+                  a.Description
               )
               .join("\n")
           : "No open actions found";
     }
 
-    /* ==========================
-       CLOSED ACTIONS
-    ========================== */
+    /* CLOSED ACTIONS */
 
     if (
       answer ===
@@ -343,9 +270,7 @@ export default function Chatbot() {
         `Closed Actions: ${closed.length}`;
     }
 
-    /* ==========================
-       TASKS FOR PROJECT
-    ========================== */
+    /* TASKS FOR PROJECT */
 
     if (
       answer ===
@@ -360,7 +285,11 @@ export default function Chatbot() {
       for (const p of projectNames) {
         if (
           q.includes(p) &&
-          q.includes("task")
+          (
+            q.includes("task") ||
+            q.includes("tasks") ||
+            q.includes("activities")
+          )
         ) {
           const projectTasks =
             tasks.filter(
@@ -373,15 +302,54 @@ export default function Chatbot() {
             );
 
           answer =
+            `Top Tasks for ${p}:\n\n` +
             projectTasks
               .slice(0, 15)
               .map(
                 (t: any) =>
-                  t.Task
+                  `• ${t.Task}`
               )
               .join("\n");
 
           break;
+        }
+      }
+    }
+
+    /* PROJECT LOOKUP MOVED TO LAST */
+
+    if (
+      answer ===
+      "Sorry, I could not find an answer."
+    ) {
+      const project =
+        knowledge.find((p: any) =>
+          q.includes(
+            String(
+              p.Project
+            ).toLowerCase()
+          )
+        );
+
+      if (project) {
+        if (
+          q.includes("health")
+        ) {
+          answer =
+            `${project.Project} Health: ${project.Health}`;
+        } else if (
+          q.includes("priority")
+        ) {
+          answer =
+            `${project.Project} Priority: ${project.Priority}`;
+        } else if (
+          q.includes("manager")
+        ) {
+          answer =
+            `${project.Project} Manager: ${project.Project_Manager}`;
+        } else {
+          answer =
+            `${project.Project}: ${project.Summary}`;
         }
       }
     }
