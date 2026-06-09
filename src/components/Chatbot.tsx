@@ -7,6 +7,7 @@ export default function Chatbot() {
   const { excelData } = useDashboard();
 
   const [question, setQuestion] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
   const [messages, setMessages] = useState<any[]>([
     {
@@ -196,7 +197,7 @@ if (
               .includes(project)
         );
 
-      const ownersFound = [
+     const ownersFound = [
   ...new Set(
     found
       .flatMap((f: any) =>
@@ -371,14 +372,45 @@ if (
   };
 
   return (
-    <div className="fixed bottom-6 right-6 w-96 bg-white rounded-xl shadow-2xl border z-50">
-      <div className="bg-blue-600 text-white p-4 rounded-t-xl font-bold">
-        🤖 Program Assistant
-      </div>
+  <>
+    {!isOpen && (
+      <button
+        onClick={() => setIsOpen(true)}
+        className="
+          fixed
+          bottom-6
+          right-6
+          h-14
+          w-14
+          rounded-full
+          bg-blue-600
+          text-white
+          text-2xl
+          shadow-xl
+          z-50
+          hover:scale-105
+          transition
+        "
+      >
+        🤖
+      </button>
+    )}
 
-      <div className="h-80 overflow-y-auto p-4 space-y-3">
-        {messages.map(
-          (msg, index) => (
+    {isOpen && (
+      <div className="fixed bottom-6 right-6 w-80 bg-white rounded-xl shadow-2xl border z-50">
+        <div className="bg-blue-600 text-white p-3 rounded-t-xl flex justify-between items-center font-bold">
+          <span>🤖 Program Assistant</span>
+
+          <button
+            onClick={() => setIsOpen(false)}
+            className="text-lg"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div className="h-72 overflow-y-auto p-3 space-y-2">
+          {messages.map((msg, index) => (
             <div
               key={index}
               className={
@@ -388,7 +420,7 @@ if (
               }
             >
               <div
-                className={`inline-block p-3 rounded-lg ${
+                className={`inline-block p-2 rounded-lg text-sm ${
                   msg.role === "user"
                     ? "bg-blue-100"
                     : "bg-slate-100"
@@ -399,29 +431,43 @@ if (
                 </pre>
               </div>
             </div>
-          )
-        )}
-      </div>
+          ))}
+        </div>
 
-      <div className="p-3 border-t flex gap-2">
-        <input
-          value={question}
-          onChange={(e) =>
-            setQuestion(
-              e.target.value
-            )
-          }
-          placeholder="Ask a question..."
-          className="flex-1 border rounded-lg p-2"
-        />
+        <div className="p-3 border-t flex gap-2">
+          <input
+            value={question}
+            onChange={(e) =>
+              setQuestion(e.target.value)
+            }
+            placeholder="Ask..."
+            className="
+              flex-1
+              border
+              rounded-lg
+              p-2
+              text-sm
+            "
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                askBot();
+              }
+            }}
+          />
 
-        <button
-          onClick={askBot}
-          className="bg-blue-600 text-white px-4 rounded-lg"
-        >
-          Ask
-        </button>
+          <button
+            onClick={askBot}
+            className="
+              bg-blue-600
+              text-white
+              px-3
+              rounded-lg
+            "
+          >
+            Ask
+          </button>
+        </div>
       </div>
-    </div>
-  );
-}
+    )}
+  </>
+);
