@@ -338,23 +338,47 @@ if (
     q.includes("start date") ||
     q.includes("start")
   ) {
-    answer =
-      `${project.Project} Start Date: ${project.Start_Date}`;
+    const startDate = new Date(
+  (Number(project.Start_Date) - 25569) *
+    86400 *
+    1000
+).toLocaleDateString("en-GB");
+
+answer =
+  `${project.Project} Start Date: ${startDate}`;
   }
 
   else if (
     q.includes("end date") ||
     q.includes("end")
   ) {
-    answer =
-      `${project.Project} End Date: ${project.End_Date}`;
+    const endDate = new Date(
+  (Number(project.End_Date) - 25569) *
+    86400 *
+    1000
+).toLocaleDateString("en-GB");
+
+answer =
+  `${project.Project} End Date: ${endDate}`;
   }
 
   else if (
     q.includes("timeline")
   ) {
-    answer =
-      `${project.Project} Timeline:\n\nStart Date: ${project.Start_Date}\nEnd Date: ${project.End_Date}`;
+    const startDate = new Date(
+  (Number(project.Start_Date) - 25569) *
+    86400 *
+    1000
+).toLocaleDateString("en-GB");
+
+const endDate = new Date(
+  (Number(project.End_Date) - 25569) *
+    86400 *
+    1000
+).toLocaleDateString("en-GB");
+
+answer =
+  `${project.Project} Timeline:\n\nStart Date: ${startDate}\nEnd Date: ${endDate}`;
   }
 
   else if (
