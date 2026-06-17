@@ -33,59 +33,50 @@ export default function StatusPieChart() {
 
   if (filters.project !== "All") {
     tasks = tasks.filter(
-      (x: any) =>
-        x.Project === filters.project
+      (x: any) => x.Project === filters.project
     );
   }
 
   if (filters.owner !== "All") {
     tasks = tasks.filter(
-      (x: any) =>
-        x.Owner === filters.owner
+      (x: any) => x.Owner === filters.owner
     );
   }
 
   if (filters.workstream !== "All") {
     tasks = tasks.filter(
-      (x: any) =>
-        x.Workstream === filters.workstream
+      (x: any) => x.Workstream === filters.workstream
     );
   }
 
   if (filters.status !== "All") {
     tasks = tasks.filter(
-      (x: any) =>
-        x.Status === filters.status
+      (x: any) => x.Status === filters.status
     );
   }
 
   if (filters.health !== "All") {
     tasks = tasks.filter(
-      (x: any) =>
-        x.Health === filters.health
+      (x: any) => x.Health === filters.health
     );
   }
 
   if (filters.priority !== "All") {
     tasks = tasks.filter(
-      (x: any) =>
-        x.Priority === filters.priority
+      (x: any) => x.Priority === filters.priority
     );
   }
 
   const grouped = Object.entries(
-    tasks.reduce(
-      (acc: any, row: any) => {
-        const workstream =
-          row.Workstream || "Unknown";
+    tasks.reduce((acc: any, row: any) => {
+      const workstream =
+        row.Workstream || "Unknown";
 
-        acc[workstream] =
-          (acc[workstream] || 0) + 1;
+      acc[workstream] =
+        (acc[workstream] || 0) + 1;
 
-        return acc;
-      },
-      {}
-    )
+      return acc;
+    }, {})
   ).map(([name, value]) => ({
     name,
     value,
@@ -109,19 +100,16 @@ export default function StatusPieChart() {
               nameKey="name"
               label
             >
-              {grouped.map(
-                (_, index) => (
-                  <Cell
-                    key={index}
-                    fill={
-                      COLORS[
-                        index %
-                          COLORS.length
-                      ]
-                    }
-                  />
-                )
-              )}
+              {grouped.map((_, index) => (
+                <Cell
+                  key={index}
+                  fill={
+                    COLORS[
+                      index % COLORS.length
+                    ]
+                  }
+                />
+              ))}
             </Pie>
 
             <Tooltip />
