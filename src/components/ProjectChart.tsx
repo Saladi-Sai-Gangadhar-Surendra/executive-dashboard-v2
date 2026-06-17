@@ -30,15 +30,7 @@ export default function ProjectChart() {
   if (filters.workstream !== "All") {
     tasks = tasks.filter(
       (x: any) =>
-        x.Workstream ===
-        filters.workstream
-    );
-  }
-
-  if (filters.phase !== "All") {
-    tasks = tasks.filter(
-      (x: any) =>
-        x.Phase === filters.phase
+        x.Workstream === filters.workstream
     );
   }
 
@@ -86,10 +78,7 @@ export default function ProjectChart() {
                 <div
                   className="bg-blue-600 h-4 rounded"
                   style={{
-                    width: `${
-                      (count / max) *
-                      100
-                    }%`,
+                    width: `${(count / max) * 100}%`,
                   }}
                 />
               </div>
