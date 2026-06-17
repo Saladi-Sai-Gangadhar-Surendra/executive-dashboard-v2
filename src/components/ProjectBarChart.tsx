@@ -39,7 +39,15 @@ export default function ProjectBarChart() {
   if (filters.workstream !== "All") {
     tasks = tasks.filter(
       (x: any) =>
-        x.Workstream === filters.workstream
+        x.Workstream ===
+        filters.workstream
+    );
+  }
+
+  if (filters.phase !== "All") {
+    tasks = tasks.filter(
+      (x: any) =>
+        x.Phase === filters.phase
     );
   }
 
@@ -60,7 +68,8 @@ export default function ProjectBarChart() {
   if (filters.priority !== "All") {
     tasks = tasks.filter(
       (x: any) =>
-        x.Priority === filters.priority
+        x.Priority ===
+        filters.priority
     );
   }
 
@@ -68,7 +77,8 @@ export default function ProjectBarChart() {
     tasks.reduce(
       (acc: any, row: any) => {
         const p =
-          row.Project || "Unknown";
+          row.Project ||
+          "Unknown";
 
         acc[p] =
           (acc[p] || 0) + 1;
