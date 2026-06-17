@@ -48,15 +48,7 @@ export default function StatusPieChart() {
   if (filters.workstream !== "All") {
     tasks = tasks.filter(
       (x: any) =>
-        x.Workstream ===
-        filters.workstream
-    );
-  }
-
-  if (filters.phase !== "All") {
-    tasks = tasks.filter(
-      (x: any) =>
-        x.Phase === filters.phase
+        x.Workstream === filters.workstream
     );
   }
 
@@ -77,19 +69,18 @@ export default function StatusPieChart() {
   if (filters.priority !== "All") {
     tasks = tasks.filter(
       (x: any) =>
-        x.Priority ===
-        filters.priority
+        x.Priority === filters.priority
     );
   }
 
   const grouped = Object.entries(
     tasks.reduce(
       (acc: any, row: any) => {
-        const phase =
-          row.Phase || "Unknown";
+        const workstream =
+          row.Workstream || "Unknown";
 
-        acc[phase] =
-          (acc[phase] || 0) + 1;
+        acc[workstream] =
+          (acc[workstream] || 0) + 1;
 
         return acc;
       },
@@ -103,7 +94,7 @@ export default function StatusPieChart() {
   return (
     <div className="bg-white rounded-xl shadow p-6">
       <h2 className="text-xl font-bold mb-4">
-        Phase Distribution
+        Workstream Distribution
       </h2>
 
       <div className="h-80">
@@ -115,6 +106,7 @@ export default function StatusPieChart() {
             <Pie
               data={grouped}
               dataKey="value"
+              nameKey="name"
               label
             >
               {grouped.map(
