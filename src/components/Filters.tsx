@@ -20,9 +20,6 @@ export default function Filters() {
   const projectMeta =
     excelData.PROJECT_METADATA || [];
 
-  const phaseMaster =
-    excelData.PHASE_MASTER || [];
-
   const projects: string[] = [
     ...new Set(
       tasks
@@ -43,14 +40,6 @@ export default function Filters() {
     ...new Set(
       tasks
         .map((r: any) => r.Workstream)
-        .filter(Boolean)
-    ),
-  ] as string[];
-
-  const phases: string[] = [
-    ...new Set(
-      phaseMaster
-        .map((r: any) => r.Phase)
         .filter(Boolean)
     ),
   ] as string[];
@@ -153,31 +142,6 @@ export default function Filters() {
             value={workstream}
           >
             {workstream}
-          </option>
-        ))}
-      </select>
-
-      {/* PHASE */}
-      <select
-        value={filters.phase}
-        onChange={(e) =>
-          setFilters({
-            ...filters,
-            phase: e.target.value,
-          })
-        }
-        className="w-full p-3 rounded bg-slate-900 border border-slate-700 text-white"
-      >
-        <option value="All">
-          All Phases
-        </option>
-
-        {phases.map((phase: string, index: number) => (
-          <option
-            key={index}
-            value={phase}
-          >
-            {phase}
           </option>
         ))}
       </select>
